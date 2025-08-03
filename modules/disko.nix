@@ -2,19 +2,16 @@
 
 let
   firmwarePartition = lib.recursiveUpdate {
-    # label = "FIRMWARE";
+
     priority = 1;
 
-    type = "0700"; # Microsoft basic data
-    attributes = [
-      0 # Required Partition
-    ];
+    type = "0700";
+    attributes = [ 0 ];
 
     size = "1024M";
     content = {
       type = "filesystem";
       format = "vfat";
-      # mountpoint = "/boot/firmware";
       mountOptions = [
         "noatime"
         "noauto"
@@ -25,18 +22,13 @@ let
   };
 
   espPartition = lib.recursiveUpdate {
-    # label = "ESP";
-
-    type = "EF00"; # EFI System Partition (ESP)
-    attributes = [
-      2 # Legacy BIOS Bootable, for U-Boot to find extlinux config
-    ];
+    type = "EF00";
+    attributes = [ 2 ];
 
     size = "1024M";
     content = {
       type = "filesystem";
       format = "vfat";
-      # mountpoint = "/boot";
       mountOptions = [
         "noatime"
         "noauto"
@@ -50,7 +42,6 @@ let
 in {
 
   boot.supportedFilesystems = [ "zfs" ];
-  # networking.hostId is set somewhere else
   services.zfs.autoScrub.enable = true;
   services.zfs.trim.enable = true;
 
